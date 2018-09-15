@@ -5,16 +5,12 @@ import Main from './components/Main';
 import CameraScreen from './components/CameraScreen';
 import Expo from 'expo';
 import ProductScreen from './components/ProductScreen';
-import { Provider } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
-import reduxThunk from 'redux-thunk';
-import reducers from './redux/reducers';
+import * as firebase from 'firebase';
 
-const store = createStore(reducers, {}, applyMiddleware(reduxThunk));
 
 export default class App extends Component {
   state = {
-    loading: true,
+    loading: true
   }
 
   async componentWillMount() {
@@ -22,7 +18,8 @@ export default class App extends Component {
       Roboto: require("native-base/Fonts/Roboto.ttf"),
       Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf")
     });
-    this.setState({loading: false});
+
+    this.setState({ ...this.state, loading: false });
   }
 
   render() {

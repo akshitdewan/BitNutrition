@@ -4,22 +4,12 @@ import { Container, Content, Button, Text, List } from 'native-base';
 import { ScrollView } from 'react-native-gesture-handler';
 import Product from '../Product';
 import ProductsRepository from '../../repository/ProductsRepository';
-import * as actions from '../../redux/actions';
-import { connect } from 'react-redux'
+import { firebaseApp } from '../../repository/firebase';
 
 class Main extends Component {
   state = {
-    products: [
-      {
-        title: 'Doritos',
-        calories: 150
-      }
-    ],
-    barcodeList: []
-  }
-
-  componentWillMount() {
-    this.props.fetchProducts();
+    barcodeList: [],
+    products: {}
   }
 
   _onPressButton = () => {
@@ -36,6 +26,23 @@ class Main extends Component {
     .catch((error) => console.warn(error));
   }
 
+  componentDidMount() {
+    this.listenForProducts();
+  }
+
+  listenForProducts() {
+    const ref = firebaseApp.database().ref();
+    ref.on('value', snap => {
+      this.setState({
+        products: snap.val()['htn-food'].products
+        // products: {'siema': {id: 'lol'}}
+      });
+      console.log(snap.val()['htn-food'].products);
+      console.log(this.state);
+      console.log(snap.val()['htn-food'].products);
+    });
+  }
+
   render() {
     const { navigation } = this.props;
     const barcode = navigation.getParam('barcode', '0');
@@ -44,7 +51,7 @@ class Main extends Component {
       list.push(barcode);
       this.setState({ barcodeList: list });
     }
-    console.warn(this.state.barcodeList);
+
     return (
       <Container>
         <ScrollView>
@@ -61,12 +68,12 @@ class Main extends Component {
           <Text letterSpacing=".2em"
             style={{fontWeight: 'bold', marginTop: 16, marginLeft: 16, marginBottom: 8}}>PRODUCTS</Text>
           <List style={{margin: 0}}>
-            {this.state.products.map(el => {
-              console.log(el)
-              return <Product key={el.id} product={el}
-              onPress={() => this.props.navigation.navigate('ProductScreen', {productId: el.id})}/>
+            {Object.keys(this.state.products).map(key => {
+              const el = this.state.products[key];
+              console.log(el);
+              return <Product key={key} product={el}
+                onPress={() => this.props.navigation.navigate('ProductScreen', {productId: key})}/>
             }
-              
             )}
           </List>
         </ScrollView>
