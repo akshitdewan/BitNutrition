@@ -5,7 +5,6 @@ import Main from './components/Main';
 import CameraScreen from './components/CameraScreen';
 import Expo from 'expo';
 import ProductScreen from './components/ProductScreen';
-import * as firebase from 'firebase';
 
 
 export default class App extends Component {
@@ -28,9 +27,7 @@ export default class App extends Component {
     }
 
     return (
-      <Provider store={store}>
-        <AppStackNavigator />
-      </Provider>
+      <AppStackNavigator />
     );
   }
 }

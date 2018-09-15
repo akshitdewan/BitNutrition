@@ -3,10 +3,9 @@ import { View } from 'react-native';
 import { Container, Content, Button, Text, List } from 'native-base';
 import { ScrollView } from 'react-native-gesture-handler';
 import Product from '../Product';
-import ProductsRepository from '../../repository/ProductsRepository';
 import { firebaseApp } from '../../repository/firebase';
 
-class Main extends Component {
+export default class Main extends Component {
   state = {
     barcodeList: [],
     products: {}
@@ -81,9 +80,3 @@ class Main extends Component {
     );
   }
 }
-
-const mapStateToProps = ({ data }) => {
-  return { data };
-}
-
-export default connect(mapStateToProps, actions)(Main);

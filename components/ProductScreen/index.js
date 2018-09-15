@@ -1,25 +1,21 @@
 import React from 'react';
 import { Container, Text } from 'native-base';
-import { connect } from 'react-redux';
-import actions from '../../redux/actions';
+import { firebaseApp } from '../../repository/firebase';
 
-const mapStateToProps = (state) => {
-    return {
-        products: state.products
-    };
-};
-const mapDispatchToProps = (dispatch) => {};
-
-class ProductScreen extends React.Component {
+export default class ProductScreen extends React.Component {
     state = {
-        product: null
+        product: {}
     }
 
     async componentWillMount() {
         const productId = this.props.navigation.getParam('productId', null);
-        this.setState({
-            product: this.store.products.find(el => el.id == productId)
-        });
+        const ref = firebaseApp.database().ref();
+        ref.on('value', snap => {
+            this.setState({
+                ...this.state,
+                product: snap.val()['htn-food'].products[productId]
+            })
+        })
     }
 
     render() {
@@ -30,9 +26,3 @@ class ProductScreen extends React.Component {
         );
     }
 }
-
-const dupa = ({ data }) => {
-    return { data };
-};
-
-export default connect(dupa, actions)(ProductScreen);
