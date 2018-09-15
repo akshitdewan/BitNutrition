@@ -65,7 +65,7 @@ export default class Main extends Component {
           <List style={{margin: 0}}>
             {this.state.products.map(el =>
               <Product key={el.id} product={el}
-                onPress={() => this.props.navigation.navigate('ProductScreen', {productId: this.props.id})}/>
+                onPress={() => this.props.navigation.navigate('ProductScreen', {productId: el.id})}/>
             )}
           </List>
         </ScrollView>

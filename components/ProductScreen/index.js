@@ -8,7 +8,7 @@ export default class ProductScreen extends React.Component {
     }
 
     async componentWillMount() {
-        const productId = this.props.navigation.getParam('productId');
+        const productId = this.props.navigation.getParam('productId', null);
         const repo = new ProductsRepository();
         this.setState({
             product: await repo.getById(productId)

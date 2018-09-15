@@ -23,4 +23,8 @@ export default class ProductsRepository {
   async getAll() {
     return this.products;
   }
+
+  async getById(id) {
+    return this.products.find(el => el.id == id);
+  }
 }
