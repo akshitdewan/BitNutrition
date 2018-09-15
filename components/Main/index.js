@@ -1,9 +1,17 @@
 import React, {Component} from 'react';
-import { StyleSheet, Text, View, TouchableHighlight, TouchableOpacity } from 'react-native';
-import { Camera, Permissions } from 'expo';
-import { createStackNavigator } from 'react-navigation';
+import { StyleSheet, View, TouchableHighlight } from 'react-native';
+import { Container, Content, Button, Text } from 'native-base';
 
 export default class Main extends Component {
+  state = {
+    products: [
+      {
+        title: 'Doritos',
+        calories: 150
+      }
+    ]
+  }
+
   _onPressButton = () => {
     //https://trackapi.nutritionix.com/v2/search/item?upc=060410020203
     return fetch('https://mywebsite.com/endpoint/', {
@@ -16,57 +24,22 @@ export default class Main extends Component {
     }).then((response) => response.json())
     .then((json) => console.warn(json))
     .catch((error) => console.warn(error));
-    // return fetch('https://mywebsite.com/endpoint/', {
-    //   method: 'POST',
-    //   headers: {
-    //     Accept: 'application/json',
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify({
-    //     firstParam: 'yourValue',
-    //     secondParam: 'yourOtherValue',
-    //   }),
-    // })
-    // .then((response) => response.json())
-    // .then((responseJson) => {
-    //   return responseJson.movies;
-    // })
-    // .catch((error) => {
-    //   console.error(error);
-    // });
   }
 
   render() {
     return (
-      <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-        <Text>Changes you make will automatically reload.</Text>
-        <Text>Shake your phone to open the developer menu.</Text>
-        <TouchableHighlight onPress={this._onPressButton}>
-          <View
-            style={{ height: 50, width: 50, backgroundColor: 'red' }}
-          />
-        </TouchableHighlight>
-        <TouchableHighlight onPress={() => this.props.navigation.navigate('Scan')}>
-          <View style={{ height: 50, width: 50, backgroundColor: 'red' }}>
-            <Text> Scan </Text>
+      <Container>
+        <Content padder>
+          <View style={{flexDirection: 'row'}}>
+            <Button onPress={() => this.props.navigation.navigate('Scan')} light>
+              <Text>Scan</Text>
+            </Button>
+            <Button onPress={() => this.props.navigation.navigate('CameraScreen')} style={{marginLeft: 10}} light>
+              <Text>Camera screen</Text>
+            </Button>
           </View>
-        </TouchableHighlight>
-        <TouchableHighlight onPress={() => this.props.navigation.navigate('CameraScreen')}>
-          <View style={{ height: 50, width: 50, backgroundColor: 'red' }}>
-            <Text> Scan </Text>
-          </View>
-        </TouchableHighlight>
-      </View>
+        </Content>
+      </Container>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
