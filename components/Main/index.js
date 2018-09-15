@@ -1,4 +1,4 @@
-import  React, {Component} from 'react';
+import React, {Component} from 'react';
 import { StyleSheet, Text, View, TouchableHighlight, TouchableOpacity } from 'react-native';
 import { Camera, Permissions } from 'expo';
 import { createStackNavigator } from 'react-navigation';
