@@ -7,7 +7,7 @@ import Expo from 'expo'
 
 export default class App extends Component {
   state = {
-    loading: true
+    loading: true,
   }
 
   async componentWillMount() {
@@ -17,7 +17,7 @@ export default class App extends Component {
     });
     this.setState({loading: false});
   }
-  
+
   render() {
     if (this.state.loading) {
       return <Expo.AppLoading/>

@@ -9,7 +9,8 @@ export default class Main extends Component {
         title: 'Doritos',
         calories: 150
       }
-    ]
+    ],
+    barcodeList: []
   }
 
   _onPressButton = () => {
@@ -26,7 +27,19 @@ export default class Main extends Component {
     .catch((error) => console.warn(error));
   }
 
+  componentDidMount = (param) => {
+    console.warn("mounted " + param);
+  }
+
   render() {
+    const { navigation } = this.props;
+    const barcode = navigation.getParam('barcode', '0');
+    if(barcode!=='0' && this.state.barcodeList[this.state.barcodeList.length-1]!=barcode) {
+      list = this.state.barcodeList.slice(0);
+      list.push(barcode);
+      this.setState({barcodeList: list});
+    }
+    console.warn(this.state.barcodeList);
     return (
       <Container>
         <Content padder>

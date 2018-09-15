@@ -4,7 +4,7 @@ import { Constants, Camera, Permissions } from 'expo';
 
 export default class CameraScreen extends Component {
   state = {
-    hasCameraPermission: null
+    hasCameraPermission: null,
   };
 
   componentDidMount() {
@@ -21,8 +21,11 @@ export default class CameraScreen extends Component {
   _handleBarCodeRead = data => {
     Alert.alert(
       'Scan successful!',
-      JSON.stringify(data)
+      JSON.stringify(data.data)
     );
+    this.props.navigation.navigate('App', {
+      barcode:data.data,
+    });
   };
 
   render() {
