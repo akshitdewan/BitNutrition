@@ -1,11 +1,9 @@
-import React from 'react';
+import  React, {Component} from 'react';
 import { StyleSheet, Text, View, TouchableHighlight, TouchableOpacity } from 'react-native';
 import { Camera, Permissions } from 'expo';
-import {
-  createStackNavigator,
-} from 'react-navigation';
+import { createStackNavigator } from 'react-navigation';
 
-class MainScreen extends React.Component {
+export default class Main extends Component {
   _onPressButton = () => {
     //https://trackapi.nutritionix.com/v2/search/item?upc=060410020203
     return fetch('https://mywebsite.com/endpoint/', {
@@ -16,7 +14,7 @@ class MainScreen extends React.Component {
         'x-app-key': 'b0c5a4d828a89461d52c593e52c99c44'
       }
     }).then((response) => response.json())
-    .then((json) => console.log(json))
+    .then((json) => console.warn(json))
     .catch((error) => console.warn(error));
     // return fetch('https://mywebsite.com/endpoint/', {
     //   method: 'POST',
@@ -49,8 +47,12 @@ class MainScreen extends React.Component {
             style={{ height: 50, width: 50, backgroundColor: 'red' }}
           />
         </TouchableHighlight>
-
-        <TouchableHighlight onPress={this._onPressButton}>
+        <TouchableHighlight onPress={() => this.props.navigation.navigate('Scan')}>
+          <View style={{ height: 50, width: 50, backgroundColor: 'red' }}>
+            <Text> Scan </Text>
+          </View>
+        </TouchableHighlight>
+        <TouchableHighlight onPress={() => this.props.navigation.navigate('CameraScreen')}>
           <View style={{ height: 50, width: 50, backgroundColor: 'red' }}>
             <Text> Scan </Text>
           </View>
@@ -68,5 +70,3 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
-
-export default MainScreen;
