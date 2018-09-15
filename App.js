@@ -4,6 +4,7 @@ import TestComponent from './components/TestComponent';
 import Main from './components/Main';
 import CameraScreen from './components/CameraScreen'
 import Expo from 'expo'
+import ProductScreen from './components/ProductScreen';
 
 export default class App extends Component {
   state = {
@@ -31,13 +32,15 @@ export default class App extends Component {
 
 const AppStackNavigator =  createStackNavigator({
   App: {
-    screen: Main,
-    title: 'Nutrition tracking'
+    screen: Main
   },
   Scan: {
     screen: TestComponent
   },
   CameraScreen: {
     screen: CameraScreen
+  },
+  ProductScreen: {
+    screen: ProductScreen
   }
 });
