@@ -3,18 +3,12 @@ import { View } from 'react-native';
 import { Container, Content, Button, Text, List } from 'native-base';
 import { ScrollView } from 'react-native-gesture-handler';
 import Product from '../Product';
-import ProductsRepository from '../../repository/ProductsRepository';
+import { firebaseApp } from '../../repository/firebase';
 
 export default class Main extends Component {
   state = {
-    products: [
-      {
-        title: 'Doritos',
-        calories: 150
-      }
-    ],
     barcodeList: [],
-    products: []
+    products: {}
   }
 
   _onPressButton = () => {
@@ -31,22 +25,32 @@ export default class Main extends Component {
     .catch((error) => console.warn(error));
   }
 
-  async componentWillMount() {
-    const repo = new ProductsRepository();
-    this.setState({
-      products: await repo.getAll()
-  })
+  componentDidMount() {
+    this.listenForProducts();
+  }
+
+  listenForProducts() {
+    const ref = firebaseApp.database().ref();
+    ref.on('value', snap => {
+      this.setState({
+        products: snap.val()['htn-food'].products
+        // products: {'siema': {id: 'lol'}}
+      });
+      console.log(snap.val()['htn-food'].products);
+      console.log(this.state);
+      console.log(snap.val()['htn-food'].products);
+    });
   }
 
   render() {
     const { navigation } = this.props;
     const barcode = navigation.getParam('barcode', '0');
-    if(barcode!=='0' && this.state.barcodeList[this.state.barcodeList.length-1]!=barcode) {
+    if (barcode !== '0' && this.state.barcodeList[this.state.barcodeList.length - 1] != barcode) {
       list = this.state.barcodeList.slice(0);
       list.push(barcode);
-      this.setState({barcodeList: list});
+      this.setState({ barcodeList: list });
     }
-    console.warn(this.state.barcodeList);
+
     return (
       <Container>
         <ScrollView>
@@ -63,9 +67,12 @@ export default class Main extends Component {
           <Text letterSpacing=".2em"
             style={{fontWeight: 'bold', marginTop: 16, marginLeft: 16, marginBottom: 8}}>PRODUCTS</Text>
           <List style={{margin: 0}}>
-            {this.state.products.map(el =>
-              <Product key={el.id} product={el}
-                onPress={() => this.props.navigation.navigate('ProductScreen', {productId: el.id})}/>
+            {Object.keys(this.state.products).map(key => {
+              const el = this.state.products[key];
+              console.log(el);
+              return <Product key={key} product={el}
+                onPress={() => this.props.navigation.navigate('ProductScreen', {productId: key})}/>
+            }
             )}
           </List>
         </ScrollView>

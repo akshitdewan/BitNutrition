@@ -1,18 +1,21 @@
-import React from 'react'
+import React from 'react';
 import { Container, Text } from 'native-base';
-import ProductsRepository from '../../repository/ProductsRepository';
+import { firebaseApp } from '../../repository/firebase';
 
 export default class ProductScreen extends React.Component {
     state = {
-        product: null
+        product: {}
     }
 
     async componentWillMount() {
         const productId = this.props.navigation.getParam('productId', null);
-        const repo = new ProductsRepository();
-        this.setState({
-            product: await repo.getById(productId)
-        });
+        const ref = firebaseApp.database().ref();
+        ref.on('value', snap => {
+            this.setState({
+                ...this.state,
+                product: snap.val()['htn-food'].products[productId]
+            })
+        })
     }
 
     render() {
