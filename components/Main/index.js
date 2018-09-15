@@ -1,6 +1,9 @@
-import React, {Component} from 'react';
-import { StyleSheet, View, TouchableHighlight } from 'react-native';
-import { Container, Content, Button, Text } from 'native-base';
+import React, { Component } from 'react';
+import { View } from 'react-native';
+import { Container, Content, Button, Text, List } from 'native-base';
+import { ScrollView } from 'react-native-gesture-handler';
+import Product from '../Product';
+import ProductsRepository from '../../repository/ProductsRepository';
 
 export default class Main extends Component {
   state = {
@@ -10,7 +13,8 @@ export default class Main extends Component {
         calories: 150
       }
     ],
-    barcodeList: []
+    barcodeList: [],
+    products: []
   }
 
   _onPressButton = () => {
@@ -27,8 +31,11 @@ export default class Main extends Component {
     .catch((error) => console.warn(error));
   }
 
-  componentDidMount = (param) => {
-    console.warn("mounted " + param);
+  async componentWillMount() {
+    const repo = new ProductsRepository();
+    this.setState({
+      products: await repo.getAll()
+  })
   }
 
   render() {
@@ -42,16 +49,26 @@ export default class Main extends Component {
     console.warn(this.state.barcodeList);
     return (
       <Container>
-        <Content padder>
-          <View style={{flexDirection: 'row'}}>
-            <Button onPress={() => this.props.navigation.navigate('Scan')} light>
-              <Text>Scan</Text>
-            </Button>
-            <Button onPress={() => this.props.navigation.navigate('CameraScreen')} style={{marginLeft: 10}} light>
-              <Text>Camera screen</Text>
-            </Button>
-          </View>
-        </Content>
+        <ScrollView>
+          <Content padder>
+            <View style={{flexDirection: 'row'}}>
+              <Button onPress={() => this.props.navigation.navigate('Scan')} light>
+                <Text>Scan</Text>
+              </Button>
+              <Button onPress={() => this.props.navigation.navigate('CameraScreen')} style={{marginLeft: 10}} light>
+                <Text>Camera screen</Text>
+              </Button>
+            </View>
+          </Content>
+          <Text letterSpacing=".2em"
+            style={{fontWeight: 'bold', marginTop: 16, marginLeft: 16, marginBottom: 8}}>PRODUCTS</Text>
+          <List style={{margin: 0}}>
+            {this.state.products.map(el =>
+              <Product key={el.id} product={el}
+                onPress={() => this.props.navigation.navigate('ProductScreen', {productId: this.props.id})}/>
+            )}
+          </List>
+        </ScrollView>
       </Container>
     );
   }
