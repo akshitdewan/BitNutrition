@@ -42,7 +42,6 @@ export default class Main extends Component {
       fibre: 0, vitaminA: 0, vitaminB: 0, vitaminC: 0 }
     Object.keys(products).map(key => {
       const nutrients = products[key].full_nutrients;
-      //console.log(nutrients);
       sum.calories += products[key].nf_calories || 0;
       sum.sodium += this.getNutrientValue(nutrients, 307);
       sum.carbohydrates += this.getNutrientValue(nutrients, 205);
@@ -53,6 +52,46 @@ export default class Main extends Component {
       sum.vitaminB += this.getNutrientValue(nutrients, 415);
       sum.vitaminC += this.getNutrientValue(nutrients, 401);
     });
+
+    // FEATURE: Find most critical nutritition
+    let dailyVals = {
+      calories: 2500,
+      sodium: 2300,
+      carbohydrates: 325,
+      calcium: 1200,
+      iron: 20,
+      fibre: 30,
+      vitaminA: 1,
+      vitaminB: 2,
+      vitaminC: 2
+    };
+
+    let tempCritical = {};
+    Object.keys(dailyVals).forEach(key => {
+      tempCritical[key] = sum[key] / dailyVals[key]
+    });
+
+    let mostCritical = 'calories';
+    Object.keys(dailyVals).forEach(key => {
+      if (tempCritical[key] < tempCritical[mostCritical]) {
+        mostCritical = key;
+      }
+    });
+
+    console.log(tempCritical);
+    console.log(mostCritical);
+
+    var dupa = fetch("https://trackapi.nutritionix.com/v2/search/instant", {
+      body: "{\n  \"query\": \"breakfeast with good " + mostCritical + "\",\n  \"common\": true,\n  \"detailed\": true,\n  \"full_nutrients\": {\n    \"203\": {\n      \"gte\": 0.4\n    },\n    \"204\": {\n      \"lte\": 10\n    },\n    \"205\": {\n      \"gte\": 10,\n      \"lte\": 40\n    }\n  }\n}",
+      headers: {
+        "Content-Type": "application/json",
+        "X-App-Id": "54dbb031",
+        "X-App-Key": "168f109946c557af5e3f83856c106d03"
+      },
+      method: "POST"
+    }).then((response) => response.json())
+    .then((json) => console.log(json))
+    .catch((error)=> console.log("STAN ERROR " + error));
 
     return sum;
   }
