@@ -12,6 +12,13 @@ export default class App extends Component {
     loading: true
   }
 
+  constructor() {
+    super();
+    console.ignoredYellowBox = [
+      'Setting a timer'
+    ];
+  }
+
   async componentWillMount() {
     await Expo.Font.loadAsync({
       Roboto: require("native-base/Fonts/Roboto.ttf"),
