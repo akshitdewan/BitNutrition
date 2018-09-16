@@ -20,7 +20,8 @@ export default class Main extends Component {
       vitaminA: 3000,
       vitaminB: 1,
       vitaminC: 34,
-    }
+    },
+    recommendedProducts: []
   }
 
   componentDidMount() {
@@ -54,25 +55,14 @@ export default class Main extends Component {
     });
 
     // FEATURE: Find most critical nutritition
-    let dailyVals = {
-      calories: 2500,
-      sodium: 2300,
-      carbohydrates: 325,
-      calcium: 1200,
-      iron: 20,
-      fibre: 30,
-      vitaminA: 1,
-      vitaminB: 2,
-      vitaminC: 2
-    };
 
     let tempCritical = {};
-    Object.keys(dailyVals).forEach(key => {
-      tempCritical[key] = sum[key] / dailyVals[key]
+    Object.keys(this.state.requirements).forEach(key => {
+      tempCritical[key] = sum[key] / this.state.requirements[key]
     });
 
     let mostCritical = 'calories';
-    Object.keys(dailyVals).forEach(key => {
+    Object.keys(this.state.requirements).forEach(key => {
       if (tempCritical[key] < tempCritical[mostCritical]) {
         mostCritical = key;
       }
@@ -81,7 +71,7 @@ export default class Main extends Component {
     console.log(tempCritical);
     console.log(mostCritical);
 
-    var dupa = fetch("https://trackapi.nutritionix.com/v2/search/instant", {
+    fetch("https://trackapi.nutritionix.com/v2/search/instant", {
       body: "{\n  \"query\": \"breakfeast with good " + mostCritical + "\",\n  \"common\": true,\n  \"detailed\": true,\n  \"full_nutrients\": {\n    \"203\": {\n      \"gte\": 0.4\n    },\n    \"204\": {\n      \"lte\": 10\n    },\n    \"205\": {\n      \"gte\": 10,\n      \"lte\": 40\n    }\n  }\n}",
       headers: {
         "Content-Type": "application/json",
@@ -89,9 +79,18 @@ export default class Main extends Component {
         "X-App-Key": "168f109946c557af5e3f83856c106d03"
       },
       method: "POST"
-    }).then((response) => response.json())
-    .then((json) => console.log(json))
-    .catch((error)=> console.log("STAN ERROR " + error));
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      this.setState({
+        ...this.state,
+        recommendedProducts: data.common.slice(0, 5)
+      });
+
+      firebaseApp.database().ref('suggested_food').set(
+        data.common.slice(0, 5).map(el => el.food_name)
+      );
+    });
 
     return sum;
   }
@@ -126,6 +125,15 @@ export default class Main extends Component {
               </Button>
             </View>
           </Content>
+          <Text letterSpacing=".2em"
+            style={{fontWeight: 'bold', marginTop: 16, marginLeft: 16, marginBottom: 8}}>YOU SHOULD EAT ONE OF THESE</Text>
+          <List style={{margin: 0}}>
+            {this.state.recommendedProducts.map((el, i) => {
+              return <ListItem style={{marginLeft: 0, paddingLeft: 16}} key={i}>
+                <Text>{el.food_name}</Text>
+              </ListItem>;
+            })}
+          </List>
           <Text letterSpacing=".2em"
             style={{fontWeight: 'bold', marginTop: 16, marginLeft: 16, marginBottom: 8}}>SUMMARY</Text>
           <List style={{margin: 0}}>
