@@ -57,7 +57,6 @@ export default class CameraScreen extends Component {
   _handleBarCodeRead = data => {
     this.setState({_handleBarCodeRead: null});
     productsRef = this.itemsRef.child('htn-food').child('products');
-    this.itemsRef.push({ barcode: data.data});
       //https://trackapi.nutritionix.com/v2/search/item?upc=060410020203
       //data.data is the barcode
     let one =  fetch('https://trackapi.nutritionix.com/v2/search/item?upc='+data.data, {
