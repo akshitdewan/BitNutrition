@@ -31,7 +31,7 @@ export default class Main extends Component {
       fibre: 0, vitaminA: 0, vitaminB: 0, vitaminC: 0 }
     Object.keys(products).map(key => {
       const nutrients = products[key].full_nutrients;
-      console.log(nutrients);
+      //console.log(nutrients);
       sum.calories += products[key].nf_calories || 0;
       sum.sodium += this.getNutrientValue(nutrients, 307);
       sum.carbohydrates += this.getNutrientValue(nutrients, 205);
