@@ -13,7 +13,7 @@ export default class ProductScreen extends React.Component {
         ref.on('value', snap => {
             this.setState({
                 ...this.state,
-                product: snap.val()['htn-food'].products[productId]
+                product: snap.val().products[productId]
             })
         })
     }

@@ -11,20 +11,6 @@ export default class Main extends Component {
     products: {}
   }
 
-  _onPressButton = () => {
-    //https://trackapi.nutritionix.com/v2/search/item?upc=060410020203
-    return fetch('https://mywebsite.com/endpoint/', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-app-id': '3b1feac3',
-        'x-app-key': 'b0c5a4d828a89461d52c593e52c99c44'
-      }
-    }).then((response) => response.json())
-    .then((json) => console.warn(json))
-    .catch((error) => console.warn(error));
-  }
-
   componentDidMount() {
     this.listenForProducts();
   }
@@ -33,12 +19,12 @@ export default class Main extends Component {
     const ref = firebaseApp.database().ref();
     ref.on('value', snap => {
       this.setState({
-        products: snap.val()['htn-food'].products
+        products: snap.val().products
         // products: {'siema': {id: 'lol'}}
       });
-      console.log(snap.val()['htn-food'].products);
-      console.log(this.state);
-      console.log(snap.val()['htn-food'].products);
+      // console.log(snap.val().products);
+      // console.log(this.state);
+      // console.log(snap.val().products);
     });
   }
 
@@ -69,7 +55,7 @@ export default class Main extends Component {
           <List style={{margin: 0}}>
             {Object.keys(this.state.products).map(key => {
               const el = this.state.products[key];
-              console.log(el);
+              //console.log(el);
               return <Product key={key} product={el}
                 onPress={() => this.props.navigation.navigate('ProductScreen', {productId: key})}/>
             }
