@@ -4,12 +4,20 @@ import TestComponent from './components/TestComponent';
 import Main from './components/Main';
 import CameraScreen from './components/CameraScreen';
 import DetectFood from './components/DetectFood';
-import Expo from 'expo'
+import Expo from 'expo';
 import ProductScreen from './components/ProductScreen';
+
 
 export default class App extends Component {
   state = {
-    loading: true,
+    loading: true
+  }
+
+  constructor() {
+    super();
+    console.ignoredYellowBox = [
+      'Setting a timer'
+    ];
   }
 
   async componentWillMount() {
@@ -17,7 +25,8 @@ export default class App extends Component {
       Roboto: require("native-base/Fonts/Roboto.ttf"),
       Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf")
     });
-    this.setState({loading: false});
+
+    this.setState({ ...this.state, loading: false });
   }
 
   render() {
