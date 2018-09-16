@@ -2,7 +2,8 @@ import  React, {Component} from 'react';
 import { createStackNavigator } from 'react-navigation';
 import TestComponent from './components/TestComponent';
 import Main from './components/Main';
-import CameraScreen from './components/CameraScreen'
+import CameraScreen from './components/CameraScreen';
+import DetectFood from './components/DetectFood';
 import Expo from 'expo'
 import ProductScreen from './components/ProductScreen';
 
@@ -39,6 +40,9 @@ const AppStackNavigator =  createStackNavigator({
   },
   CameraScreen: {
     screen: CameraScreen
+  },
+  DetectFood: {
+    screen: DetectFood
   },
   ProductScreen: {
     screen: ProductScreen
