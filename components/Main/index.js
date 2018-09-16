@@ -92,6 +92,10 @@ export default class Main extends Component {
       );
     });
 
+    Object.keys(sum).forEach(key => {
+      sum[key] = Math.round(sum[key] * 100) / 100;
+    });
+
     return sum;
   }
 
@@ -158,7 +162,7 @@ export default class Main extends Component {
               <ListItem style={{marginLeft: 0, paddingLeft: 16}}>
                 <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
                   <Text>Calcium</Text>
-                  <Text style={{color: 'gray'}}>{this.state.summary.calcium}//{this.state.requirements.calcium} mg</Text>
+                  <Text style={{color: 'gray'}}>{this.state.summary.calcium}/{this.state.requirements.calcium} mg</Text>
                 </View>
               </ListItem>
               <ListItem style={{marginLeft: 0, paddingLeft: 16}}>
