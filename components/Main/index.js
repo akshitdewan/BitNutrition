@@ -118,9 +118,6 @@ export default class Main extends Component {
         <ScrollView>
           <Content padder>
             <View style={{flexDirection: 'row'}}>
-              <Button onPress={() => this.props.navigation.navigate('Scan')} light>
-                <Text>Scan</Text>
-              </Button>
               <Button onPress={() => this.props.navigation.navigate('DetectFood')} style={{marginLeft: 10}} light>
                 <Text>Detect food</Text>
               </Button>
