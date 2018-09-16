@@ -20,11 +20,7 @@ export default class Main extends Component {
     ref.on('value', snap => {
       this.setState({
         products: snap.val().products
-        // products: {'siema': {id: 'lol'}}
       });
-      // console.log(snap.val().products);
-      // console.log(this.state);
-      // console.log(snap.val().products);
     });
   }
 
@@ -55,9 +51,8 @@ export default class Main extends Component {
           <List style={{margin: 0}}>
             {Object.keys(this.state.products).map(key => {
               const el = this.state.products[key];
-              //console.log(el);
               return <Product key={key} product={el}
-                onPress={() => this.props.navigation.navigate('ProductScreen', {productId: key})}/>
+                onPress={() => this.props.navigation.navigate('ProductScreen', { productId: key, title: el.food_name })}/>
             }
             )}
           </List>
