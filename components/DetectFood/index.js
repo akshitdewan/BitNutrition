@@ -23,7 +23,7 @@ export default class DetectFood extends Component {
     if (this.camera) {
       let photo = await this.camera.takePictureAsync({base64: true, skipProcessing: true, quality: 0});
       photo = String(photo['base64'])
-      
+
       return fetch('https://vision.googleapis.com/v1/images:annotate?key=AIzaSyA0AhaLszD3frbmYj695IefSuU6t_GIWOo', {
         method: 'POST',
         headers: {

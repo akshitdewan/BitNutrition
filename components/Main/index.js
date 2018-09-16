@@ -9,7 +9,18 @@ export default class Main extends Component {
   state = {
     barcodeList: [],
     products: {},
-    summary: {}
+    summary: {},
+    requirements: {
+      calories: 2000,
+      sodium: 2300,
+      carbohydrates: 300,
+      calcium: 780,
+      iron: 10,
+      fibre: 38,
+      vitaminA: 3000,
+      vitaminB: 1,
+      vitaminC: 34,
+    }
   }
 
   componentDidMount() {
@@ -85,55 +96,55 @@ export default class Main extends Component {
               <ListItem style={{marginLeft: 0, paddingLeft: 16}}>
                 <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
                   <Text>Calories</Text>
-                  <Text style={{color: 'gray'}}>{this.state.summary.calories} kcal</Text>
+                  <Text style={{color: 'gray'}}>{this.state.summary.calories}/{this.state.requirements.calories} kcal</Text>
                 </View>
               </ListItem>
               <ListItem style={{marginLeft: 0, paddingLeft: 16}}>
                 <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
                   <Text>Sodium</Text>
-                  <Text style={{color: 'gray'}}>{this.state.summary.sodium} mg</Text>
+                  <Text style={{color: 'gray'}}>{this.state.summary.sodium}/{this.state.requirements.sodium} mg</Text>
                 </View>
               </ListItem>
               <ListItem style={{marginLeft: 0, paddingLeft: 16}}>
                 <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
                   <Text>Carbohydrates</Text>
-                  <Text style={{color: 'gray'}}>{this.state.summary.carbohydrates} g</Text>
+                  <Text style={{color: 'gray'}}>{this.state.summary.carbohydrates}/{this.state.requirements.carbohydrates} g</Text>
                 </View>
               </ListItem>
               <ListItem style={{marginLeft: 0, paddingLeft: 16}}>
                 <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
                   <Text>Calcium</Text>
-                  <Text style={{color: 'gray'}}>{this.state.summary.calcium} mg</Text>
+                  <Text style={{color: 'gray'}}>{this.state.summary.calcium}//{this.state.requirements.calcium} mg</Text>
                 </View>
               </ListItem>
               <ListItem style={{marginLeft: 0, paddingLeft: 16}}>
                 <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
                   <Text>Iron</Text>
-                  <Text style={{color: 'gray'}}>{this.state.summary.iron} mg</Text>
+                  <Text style={{color: 'gray'}}>{this.state.summary.iron}/{this.state.requirements.iron} mg</Text>
                 </View>
               </ListItem>
               <ListItem style={{marginLeft: 0, paddingLeft: 16}}>
                 <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
                   <Text>Fibre</Text>
-                  <Text style={{color: 'gray'}}>{this.state.summary.fibre} g</Text>
+                  <Text style={{color: 'gray'}}>{this.state.summary.fibre}/{this.state.requirements.fibre} g</Text>
                 </View>
               </ListItem>
               <ListItem style={{marginLeft: 0, paddingLeft: 16}}>
                 <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
                   <Text>Vitamin A</Text>
-                  <Text style={{color: 'gray'}}>{this.state.summary.vitaminA} IU</Text>
+                  <Text style={{color: 'gray'}}>{this.state.summary.vitaminA}/{this.state.requirements.vitaminA} IU</Text>
                 </View>
               </ListItem>
               <ListItem style={{marginLeft: 0, paddingLeft: 16}}>
                 <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
                   <Text>Vitamin B</Text>
-                  <Text style={{color: 'gray'}}>{this.state.summary.vitaminB} mg</Text>
+                  <Text style={{color: 'gray'}}>{this.state.summary.vitaminB}/{this.state.requirements.vitaminB} mg</Text>
                 </View>
               </ListItem>
               <ListItem style={{marginLeft: 0, paddingLeft: 16}}>
                 <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
                   <Text>Vitamin C</Text>
-                  <Text style={{color: 'gray'}}>{this.state.summary.vitaminC} mg</Text>
+                  <Text style={{color: 'gray'}}>{this.state.summary.vitaminC}/{this.state.requirements.vitaminC} mg</Text>
                 </View>
               </ListItem>
           </List>
